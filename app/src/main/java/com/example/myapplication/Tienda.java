@@ -46,9 +46,11 @@ public class Tienda extends AppCompatActivity {
         compraIncremento = findViewById(R.id.buttonIncremento);
 
 
+
         Intent intent = getIntent();
         if (intent.hasExtra("contadorValor")) {
             double contadorValor = intent.getDoubleExtra("contadorValor", 0.0); // 0 es un valor predeterminado si no se encuentra el extra
+            suma= contadorValor;
             if (contadorValor >= 1000000) {
                 valorAlto = contadorValor / 1000000;
                 contador.setText(String.valueOf(df.format(valorAlto)) + " M");
@@ -71,12 +73,18 @@ public class Tienda extends AppCompatActivity {
         finish();
     }
 
+
     public void mejora1(View v) {
         if (suma >= costeMoneda1) {
             suma = suma - costeMoneda1;
             click++;
             contador.setText(String.valueOf(suma));
             costeMoneda1 = costeMoneda1 + 20;
+            //Con esto conseguimos enviar el resultado del contador "suma" despues de hacer la compra al mainActivity
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("contadorValorActualizado", suma);
+            setResult(RESULT_OK, resultIntent);
+
             if (suma >= 1000000) {
                 valorAlto = suma / 1000000;
                 contador.setText(String.valueOf(valorAlto) + " M");
@@ -106,6 +114,9 @@ public class Tienda extends AppCompatActivity {
             click=click +4;
             contador.setText(String.valueOf(suma));
             costeMoneda2 = costeMoneda2 + 40;
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("contadorValorActualizado", suma);
+            setResult(RESULT_OK, resultIntent);
             if (suma >= 1000000) {
                 valorAlto = suma / 1000000;
                 contador.setText(String.valueOf(valorAlto) + " M");
@@ -172,6 +183,9 @@ public class Tienda extends AppCompatActivity {
             incremento= incremento +2;
             contador.setText(String.valueOf(suma));
             costeIncremento = costeIncremento + 50;
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("contadorValorActualizado", suma);
+            setResult(RESULT_OK, resultIntent);
             if (suma >= 1000000) {
                 valorAlto = suma / 1000000;
                 contador.setText(String.valueOf(valorAlto) + " M");

@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +22,7 @@ import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int REQUEST_CODE_TIENDA = 1;
     TextView contador;
     double suma=800;
     double click = 1;
@@ -46,13 +49,31 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Tienda.class);
         double valorEnviar= suma;
         intent.putExtra("contadorValor",valorEnviar);
-        startActivity(intent);
+
+        //Con esto recogemos el resultado envidado desde la tienda. startActivityForResult nos envia los datos de vuelta cuando Tienda se cierra.
+        Intent intent2 = new Intent(this, Tienda.class);
+        startActivityForResult(intent, REQUEST_CODE_TIENDA);
+    }
+
+    //Este metodo lo utilizamos para manejar los resultados devueltos por la actividad tienda que fue lanzada con startActivityForResult().
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_TIENDA && resultCode == RESULT_OK) {
+            if (data.hasExtra("contadorValorActualizado")) {
+                suma = data.getDoubleExtra("contadorValorActualizado", suma);
+                // Actualizar el TextView del contador en MainActivity
+                contador.setText(String.valueOf(suma));
+            }
+        }
     }
 
 
 
     public void sumar(View v) {
         suma = suma + click;
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.click_moneda);
+        v.startAnimation(animation);
         if (suma >= 1000000) {
             valorAlto = suma / 1000000;
             contador.setText(String.valueOf(df.format(valorAlto)) + " M");
