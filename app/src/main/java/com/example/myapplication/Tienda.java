@@ -23,17 +23,17 @@ public class Tienda extends AppCompatActivity {
     Button compra2;
     Button compra3;
     Button compraIncremento;
-    double suma=800;
+    double suma;
     double click = 1;
     double contpesao = 0;
-    double costeMoneda1 = 100;
-    double costeMoneda2 = 200;
-    double costeIncremento=300;
+    double costeMoneda1;
+    double costeMoneda2;
+    double costeIncremento;
     double valorAlto = 0;
     DecimalFormat df = new DecimalFormat("#.00");
     DecimalFormat dfbajo = new DecimalFormat("#");
     Toast toast; // Declarar la variable Toast fuera del bloque condicional
-    double incremento=0;
+    double incremento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,31 +45,40 @@ public class Tienda extends AppCompatActivity {
         compra3 = findViewById(R.id.buttonIncremento);
         compraIncremento = findViewById(R.id.buttonIncremento);
 
+        Bundle mejoras =getIntent().getExtras();
+        suma = mejoras.getDouble("contadorValor");
+        costeMoneda1 = mejoras.getDouble("mejora1");
+        costeMoneda2 = mejoras.getDouble("mejora2");
+        costeIncremento = mejoras.getDouble("mejora3");;
+        incremento = mejoras.getDouble("incremento");
 
-
-        Intent intent = getIntent();
-        if (intent.hasExtra("contadorValor")) {
-            double contadorValor = intent.getDoubleExtra("contadorValor", 0.0); // 0 es un valor predeterminado si no se encuentra el extra
-            suma= contadorValor;
-            if (contadorValor >= 1000000) {
-                valorAlto = contadorValor / 1000000;
-                contador.setText(String.valueOf(df.format(valorAlto)) + " M");
-            } else if (contadorValor >= 1010) {
-                valorAlto = contadorValor / 1000;
-                contador.setText(String.valueOf(df.format(valorAlto)) + " K");
-            } else if (contadorValor >= 1000) {
-                valorAlto = contadorValor / 1000;
-                contador.setText(String.valueOf(dfbajo.format(valorAlto)) + " K");
-            } else {
-                contador.setText(String.valueOf(dfbajo.format(contadorValor)));
-            }
+        if (suma >= 1000000) {
+            valorAlto = suma / 1000000;
+            contador.setText(String.valueOf(valorAlto) + " M");
+        } else if (suma>=1010){
+            valorAlto = suma / 1000;
+            contador.setText(String.valueOf(df.format(valorAlto)) + " K");
+        }else if (suma >= 1000) {
+            valorAlto = suma / 1000;
+            contador.setText(String.valueOf(dfbajo.format(valorAlto)) + " K");
+        } else {
+            contador.setText(String.valueOf(dfbajo.format(suma)));
         }
-
-
-
+        compra1.setText(String.valueOf(dfbajo.format(costeMoneda1)) + " Monedas");
+        compra2.setText(String.valueOf(dfbajo.format(costeMoneda2)) + " Monedas");
+        compra3.setText(String.valueOf(dfbajo.format(costeIncremento)) + " Monedas");
+        incTemporal();
     }
 
     public void Volver(View v){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("contadorValor",suma);
+        intent.putExtra("click",click);
+        intent.putExtra("mejora1",costeMoneda1);
+        intent.putExtra("mejora2",costeMoneda2);
+        intent.putExtra("mejora3",costeIncremento);
+        intent.putExtra("incremento",incremento);
+        startActivity(intent);
         finish();
     }
 
@@ -80,11 +89,6 @@ public class Tienda extends AppCompatActivity {
             click++;
             contador.setText(String.valueOf(suma));
             costeMoneda1 = costeMoneda1 + 20;
-            //Con esto conseguimos enviar el resultado del contador "suma" despues de hacer la compra al mainActivity
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("contadorValorActualizado", suma);
-            setResult(RESULT_OK, resultIntent);
-
             if (suma >= 1000000) {
                 valorAlto = suma / 1000000;
                 contador.setText(String.valueOf(valorAlto) + " M");
@@ -211,4 +215,5 @@ public class Tienda extends AppCompatActivity {
             toast.show(); // Mostrar el Toast
         }
     }
+
 }

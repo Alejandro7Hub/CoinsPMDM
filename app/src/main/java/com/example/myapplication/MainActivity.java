@@ -19,53 +19,74 @@ import java.text.DecimalFormat;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
+//Log.e("Localizador", extra.getDouble("Clik");
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_TIENDA = 1;
     TextView contador;
-    double suma=800;
+
+    double suma;
     double click = 1;
+    double costeMoneda1;
+    double costeMoneda2;
+    double costeIncremento;
     double contpesao = 0;
     double valorAlto = 0;
     DecimalFormat df = new DecimalFormat("#.00");
     DecimalFormat dfbajo = new DecimalFormat("#");
-    double incremento=0;
+    double incremento;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        contador = findViewById(R.id.contador);
-        incTemporal(); // Mover la llamada aquí después de la inicialización de contador
+        contador = findViewById((R.id.contador));
 
-    }
 
-    public void Volver(View v){
-        finish();
-    }
-    public void IrTienda(View v){
-        Intent intent = new Intent(this, Tienda.class);
-        double valorEnviar= suma;
-        intent.putExtra("contadorValor",valorEnviar);
 
-        //Con esto recogemos el resultado envidado desde la tienda. startActivityForResult nos envia los datos de vuelta cuando Tienda se cierra.
-        Intent intent2 = new Intent(this, Tienda.class);
-        startActivityForResult(intent, REQUEST_CODE_TIENDA);
-    }
+        Bundle datosTienda = getIntent().getExtras();
+        if(datosTienda==null){
+            suma=800;
+            costeMoneda1=100;
+            costeMoneda2=200;
+            costeIncremento=300;
+        }else{
+            suma = datosTienda.getDouble("contadorValor");
+            costeMoneda1 = datosTienda.getDouble("mejora1");
+            costeMoneda2 = datosTienda.getDouble("mejora2");
+            costeIncremento = datosTienda.getDouble("mejora3");
+            incremento = datosTienda.getDouble("incremento");
+            click = datosTienda.getDouble("click");
 
-    //Este metodo lo utilizamos para manejar los resultados devueltos por la actividad tienda que fue lanzada con startActivityForResult().
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE_TIENDA && resultCode == RESULT_OK) {
-            if (data.hasExtra("contadorValorActualizado")) {
-                suma = data.getDoubleExtra("contadorValorActualizado", suma);
-                // Actualizar el TextView del contador en MainActivity
-                contador.setText(String.valueOf(suma));
+            if (suma >= 1000000) {
+                valorAlto = suma / 1000000;
+                contador.setText(String.valueOf(valorAlto) + " M");
+            } else if (suma>=1010){
+                valorAlto = suma / 1000;
+                contador.setText(String.valueOf(df.format(valorAlto)) + " K");
+            }else if (suma >= 1000) {
+                valorAlto = suma / 1000;
+                contador.setText(String.valueOf(dfbajo.format(valorAlto)) + " K");
+            } else {
+                contador.setText(String.valueOf(dfbajo.format(suma)));
             }
         }
+
+        incTemporal(); // Mover la llamada aquí después de la inicialización de contador
+    }
+
+    public void Volver(View v){finish();}
+    public void IrTienda(View v){
+        Intent intent = new Intent(this, Tienda.class);
+        intent.putExtra("contadorValor",suma);
+        intent.putExtra("click",click);
+        intent.putExtra("mejora1",costeMoneda1);
+        intent.putExtra("mejora2",costeMoneda2);
+        intent.putExtra("mejora3",costeIncremento);
+        intent.putExtra("incremento",incremento);
+        startActivity(intent);
+        finish();
     }
 
 
