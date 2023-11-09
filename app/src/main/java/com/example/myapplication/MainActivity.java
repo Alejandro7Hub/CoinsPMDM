@@ -26,9 +26,10 @@ public class MainActivity extends AppCompatActivity {
     TextView contador;
 
     double suma;
-    double click = 1;
+    double click;
     double costeMoneda1;
     double costeMoneda2;
+    double costeMoneda4;
     double costeIncremento;
     double contpesao = 0;
     double valorAlto = 0;
@@ -47,14 +48,17 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle datosTienda = getIntent().getExtras();
         if(datosTienda==null){
+            click=1;
             suma=800;
             costeMoneda1=100;
             costeMoneda2=200;
+            costeMoneda4=100;
             costeIncremento=300;
         }else{
             suma = datosTienda.getDouble("contadorValor");
             costeMoneda1 = datosTienda.getDouble("mejora1");
             costeMoneda2 = datosTienda.getDouble("mejora2");
+            costeMoneda4 = datosTienda.getDouble("mejora4");
             costeIncremento = datosTienda.getDouble("mejora3");
             incremento = datosTienda.getDouble("incremento");
             click = datosTienda.getDouble("click");
@@ -83,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("click",click);
         intent.putExtra("mejora1",costeMoneda1);
         intent.putExtra("mejora2",costeMoneda2);
+        intent.putExtra("mejora4",costeMoneda4);
         intent.putExtra("mejora3",costeIncremento);
         intent.putExtra("incremento",incremento);
         startActivity(intent);
