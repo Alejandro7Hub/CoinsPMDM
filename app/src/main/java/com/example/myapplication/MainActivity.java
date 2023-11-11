@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -7,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -78,6 +81,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
         incTemporal(); // Mover la llamada aquí después de la inicialización de contador
+    }
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_principal, menu);
+        return true;
+    }
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        switch (item.getItemId()){
+            case R.id.mpOp1:
+            case R.id.mpOp2:
+            case R.id.mpOp3:
+            case R.id.mpOp4:
+                return true;
+            default:
+                return  super.onOptionsItemSelected(item);
+        }
     }
 
     public void Volver(View v){finish();}

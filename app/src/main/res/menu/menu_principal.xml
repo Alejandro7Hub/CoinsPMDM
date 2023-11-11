@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mpOp1"
+        android:title="Púlsame"/>
+    <item
+        android:id="@+id/mpOp2"
+        android:title="Opción 2"/>
+    <item android:title="Submenu">
+        <menu>
+            <item
+                android:id="@+id/mpOp3"
+                android:title="Opción 3"/>
+            <item
+                android:id="@+id/mpOp4"
+                android:title="Opción 4"/>
+        </menu>
+    </item>
+</menu>

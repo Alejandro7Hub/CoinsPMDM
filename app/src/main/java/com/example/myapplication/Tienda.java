@@ -5,6 +5,8 @@ package com.example.myapplication;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -44,6 +46,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Tienda extends AppCompatActivity {
+
     TextView contador;
     Button compra1;
     Button compra2;
@@ -121,6 +124,8 @@ public class Tienda extends AppCompatActivity {
         compra4.setText(String.valueOf(dfbajo.format(costeMoneda4)) + " Monedas");
         incTemporal();
     }
+
+
 
     public class AdaptadorFila extends RecyclerView.Adapter<AdaptadorFila.AdaptadorFilaHolder> {
 
