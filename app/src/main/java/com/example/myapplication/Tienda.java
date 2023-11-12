@@ -51,7 +51,7 @@ public class Tienda extends AppCompatActivity {
     Button compra1;
     Button compra2;
     Button compra3;
-    Button compra4;
+
 
     Button compraIncremento;
     double suma;
@@ -67,31 +67,37 @@ public class Tienda extends AppCompatActivity {
     Toast toast; // Declarar la variable Toast fuera del bloque condicional
     double incremento;
 
-    String[] nombres={"Pila de Monedas"};
-    int[] imagenes={R.drawable.coins};
-    int[] boton={R.id.buttonPilaDeMonedas2};
-
-
+    private RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    RecyclerViewAdapter recyclerViewAdapter;
+    List <ItemsRV> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tienda);
-        View segundoLayout = LayoutInflater.from(this).inflate(R.layout.fila, null);
 
-        compra4 = segundoLayout.findViewById(R.id.buttonPilaDeMonedas2);
+
+
+        list= new ArrayList<>();
+        list.add(new ItemsRV("100 MONEDAS", "Pila de monedas", R.drawable.coins));
+        list.add(new ItemsRV("200 MONEDAS", "Montón de monedas", R.drawable.coinsmejora));
+        list.add(new ItemsRV("300 MONEDAS", "Ingresos pasivos", R.drawable.ingresospasivos));
+        recyclerViewAdapter= new RecyclerViewAdapter(list, this);
+        recyclerView=findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(recyclerViewAdapter);
+
+
+
+
+
+
 
         contador = findViewById(R.id.contadorTienda);
         compra1 = findViewById(R.id.buttonPilaDeMonedas1);
         compra2 = findViewById(R.id.buttonMontonDeMonedas);
         compra3 = findViewById(R.id.buttonIncremento);
         compraIncremento = findViewById(R.id.buttonIncremento);
-
-
-
-        RecyclerView rv=findViewById(R.id.recyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        rv.setLayoutManager(layoutManager);
-        rv.setAdapter(new AdaptadorFila());
 
 
 
@@ -120,55 +126,14 @@ public class Tienda extends AppCompatActivity {
         }
         compra1.setText(String.valueOf(dfbajo.format(costeMoneda1)) + " Monedas");
         compra2.setText(String.valueOf(dfbajo.format(costeMoneda2)) + " Monedas");
-        compra3.setText(String.valueOf(dfbajo.format(costeIncremento)) + " Monedas");
-        compra4.setText(String.valueOf(dfbajo.format(costeMoneda4)) + " Monedas");
+        compraIncremento.setText(String.valueOf(dfbajo.format(costeIncremento)) + " Monedas");
+
         incTemporal();
     }
 
 
 
-    public class AdaptadorFila extends RecyclerView.Adapter<AdaptadorFila.AdaptadorFilaHolder> {
 
-        @NonNull
-        @Override
-        public AdaptadorFilaHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new AdaptadorFilaHolder(getLayoutInflater().inflate(R.layout.fila, parent,false));
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull AdaptadorFilaHolder holder, int position) {
-            holder.imprimir(position);
-        }
-        @Override
-        public int getItemCount() {
-            return nombres.length;
-        }
-        private class AdaptadorFilaHolder extends RecyclerView.ViewHolder{
-            ImageView iv1;
-            TextView tv1;
-            public AdaptadorFilaHolder(@NonNull View v){
-                super(v);
-                iv1=v.findViewById(R.id.imageView4);
-                tv1=v.findViewById(R.id.textoCompra4);
-                compra4= v.findViewById(R.id.buttonPilaDeMonedas2);
-
-            }
-            public void imprimir(int position){
-                iv1.setImageResource(imagenes[position]);
-                tv1.setText(nombres[position]);
-                compra4.setText(boton[position]);
-            }
-        }
-
-
-
-
-
-
-
-
-
-    }
 
     public void Volver(View v){
         Intent intent = new Intent(this, MainActivity.class);
@@ -202,7 +167,7 @@ public class Tienda extends AppCompatActivity {
             } else {
                 contador.setText(String.valueOf(dfbajo.format(suma)));
             }
-            compra4.setText(String.valueOf(dfbajo.format(costeMoneda4)) + " Monedas");
+
         } else {
             if (contpesao >= 3) {
                 toast = Toast.makeText(this, "Que no hay pesao", Toast.LENGTH_LONG);

@@ -11,7 +11,7 @@
         android:id="@+id/contadorTienda"
         android:layout_width="149dp"
         android:layout_height="56dp"
-        android:text="800"
+        android:text="0"
         android:textSize="45dp"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -189,7 +189,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="290dp"
+        android:layout_width="0dp"
         android:layout_height="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

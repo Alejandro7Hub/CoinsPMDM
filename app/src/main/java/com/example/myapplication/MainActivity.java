@@ -52,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
         Bundle datosTienda = getIntent().getExtras();
         if(datosTienda==null){
             click=1;
-            suma=800;
+            suma=0;
+            contador.setText("0");
             costeMoneda1=100;
             costeMoneda2=200;
             costeMoneda4=100;

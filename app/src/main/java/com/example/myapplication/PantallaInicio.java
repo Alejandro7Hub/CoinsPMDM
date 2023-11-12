@@ -62,7 +62,7 @@ public class PantallaInicio extends AppCompatActivity {
     }
     public void salir(View v){
         AlertDialog.Builder constructor = new AlertDialog.Builder(PantallaInicio.this);
-        constructor.setMessage(");").setTitle("¿Quieres salir de la aplicación?").setIcon(R.drawable.coin)
+        constructor.setMessage("¿Quieres salir de la aplicación?").setTitle("Salir").setIcon(R.drawable.coin)
                 .setPositiveButton("SI", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -74,7 +74,7 @@ public class PantallaInicio extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
                     }
-                }).setCancelable(false);
+                }).setCancelable(true);
         AlertDialog dialogSalir = constructor.create();
         dialogSalir.show();
 
